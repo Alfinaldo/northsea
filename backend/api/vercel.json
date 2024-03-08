@@ -1,0 +1,16 @@
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/server.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      { "src": "/api/payment/(.*)", "dest": "api/server.js" },
+      { "src": "/api/connection/(.*)", "dest": "api/server.js" },
+      { "src": "/api/converting/(.*)", "dest": "api/server.js" },
+      { "src": "/api/(.*)", "dest": "api/server.js" },
+      { "src": "/(.*)", "dest": "api/server.js" }
+    ]
+  }
