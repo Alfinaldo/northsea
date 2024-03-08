@@ -10,6 +10,7 @@ import converting from './routes/converting.js'
 const app = express()
 app.use(cors({
     origin: ["https://northsea-48qn.vercel.app/"],
+    method: ["POST", "GET"],
     credentials: true
 }))
 app.use(cookieParser())
