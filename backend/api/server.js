@@ -5,7 +5,7 @@ const PORT = 3000;
 
 
 app.get('/', (req, res) => {
-    res.send(`Server berjalan di port${PORT}`)
+    res.send('Selamat datang di aplikasi Express.js!');
 })
 
 
