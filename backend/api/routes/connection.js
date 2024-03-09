@@ -1,6 +1,5 @@
 import express from 'express'
 import mysql from 'mysql'
-import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 
 const router = express()
@@ -27,8 +26,7 @@ db.connect((err) => {
 //* endpoint register
 router.post("/register", (req, res) => {
     const { username, password, confirm_password } = req.body;
-    const hashPassword = bcrypt.hashSync(password, 10)
-    const hashConfirmPassword = bcrypt.hashSync(confirm_password, 10)
+    
 
         // pastikan semua kolom terisi semua
         if (!username || !password || !confirm_password) {
@@ -52,7 +50,7 @@ router.post("/register", (req, res) => {
                     res.status(409).send({message: "Username pengguna sudah terdaftar"})
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, hashPassword, hashConfirmPassword], (err, result) => {
+                db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, username, password], (err, result) => {
                     if (err) {
                         res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" });
                         return
@@ -90,14 +88,9 @@ router.post("/register", (req, res) => {
 
             //* Memverifikasi kata sandi
             const user = result[0];
-            bcrypt.compare(password, user.password, (err, result) => {
-                if(err) {
-                    return res.status(500).send({ message: 'Kesalahan Internal Server' });
-                }
-
-                if (!result) {
-                    return res.status(401).send({ message: 'Username atau kata sandi tidak valid' });
-                } 
+            if (password !== user.password) {
+                return res.status(401).send({ message: 'Username atau kata sandi tidak valid' });
+            }
 
                 //* Jika verifikasi berhasil, buat token JWT
                 const accessToken = jwt.sign({ username : user.username}, 'jwt-access-token', {
@@ -121,7 +114,7 @@ router.post("/register", (req, res) => {
                 res.status(200).send({ message: "Login berhasil", username: username, auth: true, token: accessToken });
             })
     })
-})
+
 
 
 
