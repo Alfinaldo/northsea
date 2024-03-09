@@ -9,9 +9,10 @@ import converting from './routes/converting.js'
 
 const app = express()
 app.use(cors({
-    origin: ["https://northsea-server.vercel.app"],
+    origin: ["http://localhost:3000"],
     credentials: true
 }))
+
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true}))
