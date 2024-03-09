@@ -9,7 +9,7 @@ import converting from './routes/converting.js'
 
 const app = express()
 app.use(cors({
-    origin: ["http://localhost:3000"],
+    origin: ["https://northsea-weld.vercel.app"],
     credentials: true
 }))
 
