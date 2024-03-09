@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser'
-// import paymentRoutes from './routes/paymentRoutes.js'
+// import paymentRoutes from './routes/paymentRoutes.j'
 import connection from './routes/connection.js'
 import converting from './routes/converting.js'
 
