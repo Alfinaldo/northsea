@@ -9,7 +9,7 @@ import converting from './routes/converting.js'
 
 const app = express()
 app.use(cors({
-    origin: ["https://northsea-weld.vercel.app"],
+    origin: ["https://northsea-weld-six.vercel.app"],
     credentials: true
 }))
 
