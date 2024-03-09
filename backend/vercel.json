@@ -1,1 +1,18 @@
-{ "version": 2, "rewrites": [{ "source": "/(.*)", "destination": "/api" }] }
+{
+    "version": 2,
+    "builds": [
+      {
+        "src": "api/server.js", 
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      { "handle": "filesystem" },
+      { "src": "/api/payment", "dest": "/api/payment" },
+      { "src": "/api/connection", "dest": "/api/connection" },
+      { "src": "/api/converting", "dest": "/api/converting" },
+      { "src": "/api/(.*)", "dest": "/api/server.js" },
+      { "src": "/(.*)", "dest": "/api/server.js" }
+    ]
+  }
+  
