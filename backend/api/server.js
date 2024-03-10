@@ -6,11 +6,12 @@ import connection from './routes/connection.js'
 import converting from './routes/converting.js'
 
 const PORT = 3000;
+// 
 
 
 const app = express()
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://northsea-server.vercel.app'],
+    origin:  'https://northsea-server.vercel.app',
     credentials: true,
   }));
 
