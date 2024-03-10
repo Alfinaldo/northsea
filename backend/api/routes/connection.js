@@ -50,7 +50,7 @@ router.post("/register", (req, res) => {
                     res.status(409).send({message: "Username pengguna sudah terdaftar"})
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, username, password], (err, result) => {
+                db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, password, confirm_password], (err, result) => {
                     if (err) {
                         res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" });
                         return
@@ -67,9 +67,9 @@ router.post("/register", (req, res) => {
 
 
     //* endpoint Login
-    router.post('/login', (req, res) => {
+    router.post("/login", (req, res) => {
         const { username, password, } = req.body;
-
+      
           //* pastikan semua kolom terisi semua
           if (!username || !password  ) {
             return res.status(400).send({ message: "Mohon lengkapi semua kolom" });
@@ -99,7 +99,7 @@ router.post("/register", (req, res) => {
 
                 //* menyimpan access token ke dalam cookie
                 const maxAgeForOneMinute = 60000 // 60.000 milidetik
-                 res.cookie('accessToken', accessToken, {maxAge: maxAgeForOneMinute})
+                 res.cookie('accessToken', accessToken, {maxAge: maxAgeForOneMinute, httpOnly: true, secure: true, sameSite: 'strict'})
 
                 //* membuat token refresh
                 const refreshToken = jwt.sign({username: user.username}, 'jwt-refresh-token', {
