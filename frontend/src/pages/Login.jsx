@@ -45,13 +45,7 @@ const Login = () => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         // Redirect to login page after 3 detik
 
-        // Melakukan reload
-        window.location.reload();
-
-        window.onload = function () {
-          // Pindah ke halaman utama setelah reload selesai
-          navigate("/northsea/");
-        };
+        window.location.href = "/northsea/";
       } catch (error) {
         setMessage(error.response.data.message);
 

@@ -31,7 +31,10 @@ const Register = () => {
       try {
         const response = await axios.post(
           "http://localhost:3000/api/register",
-          data
+          data,
+          {
+            withCredentials: true,
+          }
         );
         setMessage(response.data.message);
         toast({
@@ -41,7 +44,7 @@ const Register = () => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         // Redirect to login page after 2 seconds
 
-        navigate("/login");
+        navigate("/northsea/login");
       } catch (error) {
         setMessage(error.response.data.message);
         toast({
