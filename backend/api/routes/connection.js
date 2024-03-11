@@ -47,7 +47,8 @@ router.post("/register", (req, res) => {
                 if(err) throw err
                 if (result.length > 0) {    
                     // Jika username sudah ada, kirim respon error
-                    res.status(409).send({message: "Username pengguna sudah terdaftar"})
+                    res.status(500).send({message: "Username pengguna sudah terdaftar"})
+                    return
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
                 db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, password, confirm_password], (err, result) => {
