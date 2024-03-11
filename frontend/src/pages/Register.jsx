@@ -33,10 +33,7 @@ const Register = () => {
       try {
         const response = await axios.post(
           "https://northsea-server.vercel.app/api/register",
-          data,
-          {
-            withCredentials: true,
-          }
+          data
         );
         console.log(response);
         setMessage(response.data.message);
