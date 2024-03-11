@@ -44,9 +44,7 @@ router.post("/register", (req, res) => {
         //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
         const select_user_username = 'SELECT * FROM users WHERE username = ?'
         db.query(select_user_username, [username], (err, result) => {
-                if(err) {
-                    return res.status(500).send({message: 'Terjadi kesalahan saat mencari pengguna'})
-                }
+                if(err) throw err
                 if (result.length > 0) {    
                     // Jika username sudah ada, kirim respon error
                     res.status(409).send({message: "Username pengguna sudah terdaftar"})
@@ -110,7 +108,7 @@ router.post("/register", (req, res) => {
 
                 //* me-resfreh refreshToken di dalam cookie 
                 const maxAgeForTwoMinute = 120000 // 120.000 milidetik
-                res.cookie('refreshToken', refreshToken, {maxAge: maxAgeForTwoMinute, httpOnly: true, secure: true, sameSite: 'strict'})
+                res.cookie('refreshToken', refreshToken, {maxAge: maxAgeForTwoMinute, httpOnly: true, secure:true, sameSite: 'strict'})
 
                 // Kirim respons berhasil bersama dengan token
                 res.status(200).send({ message: "Login berhasil", username: username, auth: true, token: accessToken });
