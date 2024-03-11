@@ -18,6 +18,8 @@ const Register = () => {
   const { isDarkMode } = useContext(darkMode);
   const { authUser, setAuthUser } = useContext(darkMode);
 
+  console.log(message);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -31,8 +33,12 @@ const Register = () => {
       try {
         const response = await axios.post(
           "https://northsea-server.vercel.app/api/register",
-          data
+          data,
+          {
+            withCredentials: true,
+          }
         );
+        console.log(response);
         setMessage(response.data.message);
         toast({
           description: `${response.data.message}`, // response.data.message sudah merupakan string, tidak perlu menggabungkan dengan setMessage dan data
