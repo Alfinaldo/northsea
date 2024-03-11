@@ -10,8 +10,7 @@ const PORT = 3000;
 
 const app = express()
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://northsea-server.vercel.app'],
-    methods: ["GET", "POST"],
+    origin: 'https://northsea-server.vercel.app',
     credentials: true,
   }));
 
