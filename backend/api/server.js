@@ -10,7 +10,7 @@ const PORT = 3000;
 
 const app = express()
 app.use(cors({
-    origin: 'https://alfinaldo.github.io/northsea/',
+    origin: 'https://alfinaldo.github.io/northsea',
     methods: ["POST", "GET"],
     credentials: true,
   }));
