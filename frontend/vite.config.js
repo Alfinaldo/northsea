@@ -11,8 +11,7 @@ export default defineConfig({
     },
   },
   build: {
-    sourcemap: true,
-    outDir: 'dist',
+   
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -20,7 +19,7 @@ export default defineConfig({
             return 'vendor'; // Menggabungkan semua dependensi dari node_modules menjadi satu chunk
           }
         },
-        sourcemapExcludeSources: true,
+       
       },
     },
   },
