@@ -9,12 +9,6 @@ const PORT = 3000;
 
 
 const app = express()
-app.use(cors({
-    origin: ['https://alfinaldo.github.io/northsea/', 'http://localhost:5173'],
-    // methods: ["GET", "POST"],
-    // allowedHeaders: ['Content-type', 'Authorization'],
-    credentials: true,
-  }));
 
 app.use(cookieParser())
 app.use(bodyParser.json())
@@ -23,6 +17,11 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 app.use("/api", connection)
 app.use("/api", converting)
+
+app.use(cors({
+    origin: ['https://alfinaldo.github.io/northsea', 'http://localhost:5173'],
+    credentials: true,
+  }));
 
 
 
