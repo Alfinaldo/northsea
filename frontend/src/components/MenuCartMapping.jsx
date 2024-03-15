@@ -80,7 +80,7 @@ const MenuCartMapping = ({
       setCrypto(response.data.crypto_symbol);
       setUsd(response.data.usd);
     } catch (error) {
-      console.log(error.response.data.message);
+      return error;
     }
   };
 
