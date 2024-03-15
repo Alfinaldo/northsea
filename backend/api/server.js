@@ -11,7 +11,7 @@ const PORT = 3000;
 const app = express()
 app.use(cors({
     origin: 'https://alfinaldo.github.io/northsea/',
-    methods: ["GET", POST],
+    methods: ["GET", "POST"],
     allowedHeaders: ['Content-type', 'Authorization'],
     credentials: true,
   }));
