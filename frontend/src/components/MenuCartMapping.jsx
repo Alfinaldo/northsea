@@ -72,13 +72,11 @@ const MenuCartMapping = ({
   const fetchCrypto = async () => {
     try {
       const response = await axios.get(
-        `https://northsea-server.vercel.app/api/convert/${crypto}/${price}`,
+        `http://localhost:3000/api/convert/${crypto}/${price}`,
         {
           withCredentials: true,
         }
       );
-
-      console.log(response.data);
       setCrypto(response.data.crypto_symbol);
       setUsd(response.data.usd);
     } catch (error) {

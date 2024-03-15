@@ -32,7 +32,7 @@ const Register = () => {
     setTimeout(async () => {
       try {
         const response = await axios.post(
-          "https://northsea-server.vercel.app/api/register",
+          "http://localhost:3000/api/register",
           data,
           {
             withCredentials: true,
