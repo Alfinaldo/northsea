@@ -10,9 +10,9 @@ const PORT = 3000;
 
 const app = express()
 app.use(cors({
-    origin: 'https://northsea-server.vercel.app',
-    methods: ["GET", "POST"],
-    allowedHeaders: ['Content-type', 'Authorization'],
+    origin: ['https://alfinaldo.github.io/northsea/', 'http://localhost:5173'],
+    // methods: ["GET", "POST"],
+    // allowedHeaders: ['Content-type', 'Authorization'],
     credentials: true,
   }));
 
