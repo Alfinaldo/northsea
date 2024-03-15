@@ -1,6 +1,6 @@
 {
   "rewrites": [
-    { "source": "/northsea/(.*)", "destination": "/dist/index.html" },
+    { "source": "/northsea/:path*", "destination": "/dist/:path*" },
     { "source": "/(.*)", "destination": "/dist/index.html" }
   ]
 }
