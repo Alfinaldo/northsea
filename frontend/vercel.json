@@ -1,6 +1,7 @@
 {
   "rewrites": [
-    { "source": "/(.*)", "destination": "/dist/index.html" }
+    { "source": "/northsea/(.*)", "destination": "/northsea/$1" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
 
