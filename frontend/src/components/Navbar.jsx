@@ -47,7 +47,7 @@ const Navbar = () => {
         setAuth(response.data.auth);
       }
     } catch (error) {
-      return error;
+      setMessage(error.response.data.message);
     }
   };
 
