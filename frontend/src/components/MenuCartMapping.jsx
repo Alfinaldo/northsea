@@ -72,15 +72,16 @@ const MenuCartMapping = ({
   const fetchCrypto = async () => {
     try {
       const response = await axios.get(
-        `https://northsea-server.vercel.app/api/convert/${crypto}/${price}`,
+        `http://localhost:3007/api/convert/${crypto}/${price}`,
         {
           withCredentials: true,
         }
       );
+      console.log(response.data);
       setCrypto(response.data.crypto_symbol);
       setUsd(response.data.usd);
     } catch (error) {
-      return error;
+      console.log(error);
     }
   };
 
@@ -104,7 +105,7 @@ const MenuCartMapping = ({
   useEffect(() => {
     fetchCrypto();
     // fetchUsdToIdr();
-  }, [price]);
+  }, [price, usd]);
 
   return (
     <>
@@ -199,17 +200,8 @@ const MenuCartMapping = ({
               {item.chain?.name}
             </div>
             <div>
-              {errorMessage ? (
-                <>
-                  <img src={pulse} className=" h-7 " />
-                  <img src={pulse} className=" h-7 " />
-                </>
-              ) : (
-                <>
-                  <div>$ {usd.toFixed(5)}</div>
-                  <div className=" mt-1">{formattingIdr(idr)}</div>
-                </>
-              )}
+              <div>$ {usd.toFixed(5)}</div>
+              <div className=" mt-1">{formattingIdr(idr)}</div>
             </div>
           </div>
         </div>

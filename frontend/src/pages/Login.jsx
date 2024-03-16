@@ -17,6 +17,8 @@ const Login = () => {
   const { isDarkMode } = useContext(darkMode);
   const { authUser, setAuthUser } = useContext(darkMode);
 
+  console.log(message);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -28,13 +30,13 @@ const Login = () => {
     setTimeout(async () => {
       try {
         const response = await axios.post(
-          "https://northsea-server.vercel.app/api/login",
+          "http://localhost:3007/api/login",
           data,
           {
             withCredentials: true,
           }
         );
-
+        console.log(response.data);
         setMessage(response.data.message);
         localStorage.setItem("user", response.data.username);
 

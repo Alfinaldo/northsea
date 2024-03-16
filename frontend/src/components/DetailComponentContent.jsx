@@ -64,33 +64,36 @@ const DetailComponentContent = () => {
   const fetchCrypto = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/convert/${crypto}/${price}`
+        `http://localhost:3007/api/convert/${crypto}/${price}`,
+        {
+          withCredentials: true,
+        }
       );
-      // console.log(response.data);
+      console.log(response.data);
       setCrypto(response.data.crypto_symbol);
       setUsd(response.data.usd);
     } catch (error) {
-      console.log(error.response.data.message);
+      return error;
     }
   };
 
-  const fakeUsd = price;
-  const fakeIdr = fakeUsd * idrRate;
+  // const fakeUsd = price;
+  // const fakeIdr = fakeUsd * idrRate;
 
-  //? Membuat object Baru
-  const newObject = {
-    order_id: order_id,
-    usd: usd,
-    idr: idr,
-    fakeUsd: fakeUsd,
-    fakeIdr: fakeIdr,
-  };
+  // //? Membuat object Baru
+  // const newObject = {
+  //   order_id: order_id,
+  //   usd: usd,
+  //   idr: idr,
+  //   fakeUsd: fakeUsd,
+  //   fakeIdr: fakeIdr,
+  // };
 
-  //? Menggabungkan object yang baru di bikin dengan object newDatas
-  const updateDatas = {
-    ...newDatas,
-    newObject: newObject,
-  };
+  // //? Menggabungkan object yang baru di bikin dengan object newDatas
+  // const updateDatas = {
+  //   ...newDatas,
+  //   newObject: newObject,
+  // };
 
   const formattingIdr = (value) => {
     const formattedValue = new Intl.NumberFormat("id-ID", {
@@ -132,7 +135,7 @@ const DetailComponentContent = () => {
         >
           <div className="left w-1/2 object-contain">
             <img
-              src={updateDatas?.image_url}
+              src={newDatas?.image_url}
               className=" rounded-md h-[450px] w-full"
             />
           </div>
@@ -145,15 +148,15 @@ const DetailComponentContent = () => {
                     : " font-medium text-[#363636]"
                 }
               >
-                {updateDatas?.collection}
+                {newDatas?.collection}
               </div>
               <div className=" bg-red-600 py-1 px-3 text-[#f9f9f9] text-xs rounded-md font-medium">
-                # {updateDatas.identifier}
+                # {newDatas.identifier}
               </div>
             </div>
             <div className="flex items-center py-2 px-4 gap-4">
               <img
-                src={updateDatas?.chain?.logo}
+                src={newDatas?.chain?.logo}
                 style={{ width: "20px", height: "20px", color: "red" }}
               />
               <i
@@ -199,7 +202,7 @@ const DetailComponentContent = () => {
                   : " py-3 px-4 text-xs sm:text-sm md:text-sm lg:text-sm "
               }
             >
-              {updateDatas?.desc?.substring(0, 70)}
+              {newDatas?.desc?.substring(0, 70)}
             </div>
             <div
               className={
@@ -230,7 +233,7 @@ const DetailComponentContent = () => {
                 <div className=" flex items-center gap-3">
                   <button
                     onClick={() =>
-                      handleDecrementQuantity(updateDatas?.identifier)
+                      handleDecrementQuantity(newDatas?.identifier)
                     }
                     className={
                       isDarkMode
@@ -247,11 +250,11 @@ const DetailComponentContent = () => {
                         : " border py-[1px] px-3 text-xs sm:text-sm md:text-sm lg:text-sm text-[#363636]"
                     }
                   >
-                    {updateDatas?.quantity}
+                    {newDatas?.quantity}
                   </button>
                   <button
                     onClick={() =>
-                      handleIncrementQuantity(updateDatas?.identifier)
+                      handleIncrementQuantity(newDatas?.identifier)
                     }
                     className={
                       isDarkMode
@@ -270,9 +273,9 @@ const DetailComponentContent = () => {
                     : " text-[#363636] font-bold text-2xl sm:text-4xl md:text-4xl lg:text-4xl pb-2 px-4"
                 }
               >
-                {updateDatas?.price?.toFixed(2)}{" "}
+                {newDatas?.price?.toFixed(2)}{" "}
                 <span className=" text-xs sm:text-sm md:text-sm lg:text-sm font-bold opacity-40">
-                  {updateDatas.chain.name}
+                  {newDatas.chain.name}
                 </span>
               </div>
               <div
@@ -296,7 +299,7 @@ const DetailComponentContent = () => {
               {/* <div className=" pb-2 px-4 text-[#363636]">
                 {formattingIdr(idr)}
               </div> */}
-              <CheckOut updateDatas={updateDatas} />
+              <CheckOut newDatas={newDatas} />
               <div
                 className={
                   isDarkMode

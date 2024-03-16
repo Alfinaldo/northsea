@@ -4,13 +4,13 @@ import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 
-const CheckOut = ({ updateDatas }) => {
-  const {
-    newObject: { order_id, idr, fakeIdr },
-    identifier,
-    quantity,
-    collection,
-  } = updateDatas;
+const CheckOut = () => {
+  // const {
+  //   newObject: { order_id, idr, fakeIdr },
+  //   identifier,
+  //   quantity,
+  //   collection,
+  // } = updateDatas;
 
   // console.log("updateDatas", updateDatas);
 
