@@ -72,7 +72,7 @@ const MenuCartMapping = ({
   const fetchCrypto = async () => {
     try {
       const response = await axios.get(
-        `https://alfinaldo.github.io/northsea/api/convert/${crypto}/${price}`,
+        `http://localhost:3007/api/convert/${crypto}/${price}`,
         {
           withCredentials: true,
         }
