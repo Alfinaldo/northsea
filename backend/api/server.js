@@ -18,6 +18,12 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 
 
+app.use(cors({
+    origin: 'http://localhost:3007',
+    credentials: true,
+  }));
+
+
 app.use("/api", connection)
 app.use("/api", converting)
 

@@ -18,16 +18,6 @@ const cryptoValues = {
 }
 
 
-// Middleware untuk mengizinkan CORS
-router.use((req, res, next) => {
-    // Izinkan akses dari domain GitHub Pages Anda
-    res.header("Access-Control-Allow-Origin", "https://alfinaldo.github.io/northsea/"); // Ganti dengan domain GitHub Pages Anda
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.header("Access-Control-Allow-Credentials", true); // Izinkan kredensial
-    next();
-});
-
-
 
 
 router.get('/convert/:crypto_symbol/:crypto_amount', (req, res) => {
