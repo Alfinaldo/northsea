@@ -6,29 +6,29 @@ const router = express()
 
 
 
-const usdToIdrRate = 15740432 
+// const usdToIdrRate = 15740432 
 
-router.get('/convert/:usd_amount', (req, res) => {
-    try {
-        //* Ambil jumlah yang akan dikonversi dari parameter URL
-        const amount = req.params.usd_amount;
+// router.get('/convert/:usd_amount', (req, res) => {
+//     try {
+//         //* Ambil jumlah yang akan dikonversi dari parameter URL
+//         const amount = req.params.usd_amount;
        
 
-         //* Konversi nilai dalam USD ke Rupiah
-         const usdAmount = parseFloat(amount)
-         const idr = usdAmount * usdToIdrRate;
+//          //* Konversi nilai dalam USD ke Rupiah
+//          const usdAmount = parseFloat(amount)
+//          const idr = usdAmount * usdToIdrRate;
         
 
-         //* Kirim respons dengan hasil konversi
-        // res.json({ usd: amount, idr });
-        response(200, usdAmount, idr, "success", res)
+//          //* Kirim respons dengan hasil konversi
+//         // res.json({ usd: amount, idr });
+//         response(200, usdAmount, idr, "success", res)
        
         
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal server error' });
-    }
-})
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Internal server error' });
+//     }
+// })
 
 
 const cryptoValues = {
