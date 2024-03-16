@@ -6,30 +6,6 @@ const router = express()
 
 
 
-// const usdToIdrRate = 15740432 
-
-// router.get('/convert/:usd_amount', (req, res) => {
-//     try {
-//         //* Ambil jumlah yang akan dikonversi dari parameter URL
-//         const amount = req.params.usd_amount;
-       
-
-//          //* Konversi nilai dalam USD ke Rupiah
-//          const usdAmount = parseFloat(amount)
-//          const idr = usdAmount * usdToIdrRate;
-        
-
-//          //* Kirim respons dengan hasil konversi
-//         // res.json({ usd: amount, idr });
-//         response(200, usdAmount, idr, "success", res)
-       
-        
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Internal server error' });
-//     }
-// })
-
 
 const cryptoValues = {
     XRP : 0.6474,
@@ -40,6 +16,17 @@ const cryptoValues = {
     FTM : 0.6395,
     MANA:  0.6651,
 }
+
+
+// Middleware untuk mengizinkan CORS
+router.use((req, res, next) => {
+    // Izinkan akses dari domain GitHub Pages Anda
+    res.header("Access-Control-Allow-Origin", "https://alfinaldo.github.io/northsea/"); // Ganti dengan domain GitHub Pages Anda
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Credentials", true); // Izinkan kredensial
+    next();
+});
+
 
 
 

@@ -18,12 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 
 
-app.use(cors({
-    origin: 'https://alfinaldo.github.io/northsea/',
-    credentials: true,
-  }));
-
-
 app.use("/api", connection)
 app.use("/api", converting)
 
