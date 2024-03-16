@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 
 app.use(cors({
-    origin: 'https://alfinaldo.github.io/northsea/',
+    origin: 'https://alfinaldo.github.io/northsea',
     credentials: true,
   }));
 
