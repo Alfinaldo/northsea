@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 
 app.use(cors({
-    origin: ['http://localhost:5173', 'https://alfinaldo.github.io'],
+    origin: ['http://localhost:5173', 'https://alfinaldo.github.io', '*'],
     credentials: true,
   }));
 
