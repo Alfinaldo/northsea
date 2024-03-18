@@ -26,7 +26,8 @@ db.connect((err) => {
 //* endpoint register
 router.post("/register", (req, res) => {
     const { username, password, confirm_password } = req.body;
-    console.log(username)
+    console.log('username', username)
+   
 
         // pastikan semua kolom terisi semua
         if (!username || !password || !confirm_password) {
@@ -41,8 +42,10 @@ router.post("/register", (req, res) => {
 
 
         //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
-        const select_user_username = 'SELECT * FROM users WHERE username = ? ';
-        db.query(select_user_username, [username], (err, result) => {
+        const sql = 'SELECT * FROM users WHERE username = ? ';
+        db.query(sql, [username], (err, result) => {
+            console.log(err)
+            console.log(result)
                 if(err) {
                     return res.status(500).send({message: "kesahalan internal"})
                 }
@@ -51,8 +54,8 @@ router.post("/register", (req, res) => {
                    return res.status(400).send({message: "Username pengguna sudah terdaftar"})
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                const sql = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)'
-                db.query(sql, [username, password, confirm_password], (err, result) => {
+                const sqll = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)';
+                db.query(sqll, [username, password, confirm_password], (err, result) => {
                     if (err) {
                        return res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" }); 
                     }
