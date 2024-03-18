@@ -44,15 +44,13 @@ router.post("/register", (req, res) => {
         //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
         const sql = 'SELECT * FROM users WHERE username = ? ';
         db.query(sql, [username], (err, result) => {
-            console.log(err)
-            console.log(result)
-                if (err) throw err;
+            if (err) throw err;
                 if (result.length > 0) {    
                     // Jika username sudah ada, kirim respon error
                    return res.status(400).send({message: "Username pengguna sudah terdaftar"})
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                const sqll = 'INSERT INTO users SET ?';
+                const sqll = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)';
                 db.query(sqll, [username, password, confirm_password], (err, result) => {
                     if (err) throw err;
                     res.status(200).send({ message: "Register Berhasil" });
