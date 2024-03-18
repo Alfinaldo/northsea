@@ -1,6 +1,6 @@
 {
   "routes": [
-    { "source": "/northsea/", "destination": "/" }
+    { "source": "/", "destination": "/" }
     
   ]
 }
