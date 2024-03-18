@@ -23,7 +23,7 @@ const CardMainLeft = () => {
         </td>
         <td className=" py-3 px-3">
           <Link
-            to={`/northsea/collection/${datas1?.collection}`}
+            to={`/collection/${datas1?.collection}`}
             className=" flex items-center gap-2 w-full"
           >
             <img
@@ -68,7 +68,7 @@ const CardMainLeft = () => {
         </td>
         <td className=" py-3 px-3">
           <Link
-            to={`/northsea/collection/${datas2?.collection}`}
+            to={`/collection/${datas2?.collection}`}
             className=" flex items-center gap-2 w-full"
           >
             <img
@@ -114,7 +114,7 @@ const CardMainLeft = () => {
         </td>
         <td className=" py-3 px-3">
           <Link
-            to={`/northsea/collection/${datas3?.collection}`}
+            to={`/collection/${datas3?.collection}`}
             className=" flex items-center gap-2 w-full"
           >
             <img
@@ -160,7 +160,7 @@ const CardMainLeft = () => {
         </td>
         <td className=" py-3 px-3">
           <Link
-            to={`/northsea/collection/${datas4?.collection}`}
+            to={`/collection/${datas4?.collection}`}
             className=" flex items-center gap-2 w-full"
           >
             <img
@@ -203,7 +203,7 @@ const CardMainLeft = () => {
         </td>
         <td className=" py-3 px-3">
           <Link
-            to={`/northsea/collection/${datas5?.collection}`}
+            to={`/collection/${datas5?.collection}`}
             className=" flex items-center gap-2 w-full"
           >
             <img
