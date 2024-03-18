@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken'
 const router = express()
 
 const db = mysql.createConnection({
-    host: 'localhost',
+    host: '127.0.0.1',
     user: 'root',
     password: '',
     database: 'server'
@@ -50,8 +50,8 @@ router.post("/register", (req, res) => {
                    return res.status(400).send({message: "Username pengguna sudah terdaftar"})
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                const sqll = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)';
-                db.query(sqll, [username, password, confirm_password], (err, result) => {
+                const sqll = 'INSERT INTO users (username, password) VALUES (?, ?)';
+                db.query(sqll, [username, password], (err, result) => {
                     if (err) throw err;
                     res.status(200).send({ message: "Register Berhasil" });
                 });
