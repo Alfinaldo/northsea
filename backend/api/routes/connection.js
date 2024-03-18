@@ -23,10 +23,9 @@ db.connect((err) => {
 
 
 
-//* endpoint register
-router.post("/register", (req, res) => {
-    const { username, password, confirm_password } = req.body;
-    
+    //* endpoint register
+    router.post("/register", async (req, res) => {
+        const { username, password, confirm_password } = req.body;
 
         // pastikan semua kolom terisi semua
         if (!username || !password || !confirm_password) {
@@ -35,37 +34,30 @@ router.post("/register", (req, res) => {
 
         // pastikan password dan confirm_password itu sesuai/sama
         if (password !== confirm_password) {
-             res.status(400).send({ message: "Konfirmasi password tidak cocok!" });
-             return
+            return res.status(400).send({ message: "Konfirmasi password tidak cocok!" });
         }
 
+        try {
+            // validasi jika ada username yang sama di dalam database, maka pesan nya harus error
+            const select_user_username = 'SELECT * FROM users WHERE username = ?';
+            const existingUser = await db.query(select_user_username, [username]);
 
+            if (existingUser.length > 0) {
+                return res.status(400).send({ message: "Username pengguna sudah terdaftar" });
+            } else {
+                // jika username belum ada di dalam database maka tambahkan username baru ke dalam database
+                const insertUserQuery = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)';
+                await db.query(insertUserQuery, [username, password, confirm_password]);
 
-        //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
-        const select_user_username = 'SELECT * FROM users WHERE username = ? ';
-        db.query(select_user_username, `${username}`, (err, result) => {
-            
-                if(err) return res.status(500).send({message: "kesahalan internal"})
-                else if (result.length > 0) {    
-                    // Jika username sudah ada, kirim respon error
-                   return res.status(400).send({message: "Username pengguna sudah terdaftar"})
-                } else {
-                //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, password, confirm_password], (err, result) => {
-                    if (err) {
-                       return res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" }); 
-                    }
-                    //   // Set header CORS
-                    // res.header('Access-Control-Allow-Origin', 'https://northsea.vercel.app');
-                    // res.header('Access-Control-Allow-Credentials', true);
-                    // Kirim respons berhasil
-                    res.status(200).send({ message: "Register Berhasil" });
-                });
+                // Kirim respons berhasil
+                return res.status(200).send({ message: "Register Berhasil" });
             }
+        } catch (error) {
+            console.error("Error during registration:", error);
+            return res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" });
+        }
+    });
 
-        })
-
-    })
 
 
 
