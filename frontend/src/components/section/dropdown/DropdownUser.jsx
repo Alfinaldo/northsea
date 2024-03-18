@@ -29,9 +29,12 @@ const DropdownUser = ({ auth, user }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get("http://localhost:3007/api/logout", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://northsea-server.vercel.app/api/logout",
+        {
+          withCredentials: true,
+        }
+      );
       console.log(response.data);
       localStorage.removeItem("user");
       window.location.reload();

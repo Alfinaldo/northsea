@@ -30,7 +30,7 @@ const Login = () => {
     setTimeout(async () => {
       try {
         const response = await axios.post(
-          "http://localhost:3007/api/login",
+          "https://northsea-server.vercel.app/api/login",
           data,
           {
             withCredentials: true,
