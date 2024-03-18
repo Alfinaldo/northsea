@@ -1,6 +1,8 @@
 {
   "rewrites": [
     { "source": "/", "destination": "/" },
+    { "source": "/collection/:collectionId", "destination": "/" },
+    { "source": "/collection/:collectionId/detail/:id", "destination": "/" },
     { "source": "/register", "destination": "/" },
     { "source": "/login", "destination": "/" }
     
