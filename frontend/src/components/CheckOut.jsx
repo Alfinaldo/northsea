@@ -91,7 +91,7 @@ const CheckOut = () => {
     <div className=" checkout px 4">
       {!auth ? (
         <>
-          <Link to="/northsea/login">
+          <Link to="/login">
             <button className="py-2 ml-3 bg-blue-500 w-1/2 text-[#f9f9f9] font-medium rounded-lg">
               Buy now
             </button>

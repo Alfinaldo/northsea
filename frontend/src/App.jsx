@@ -9,17 +9,14 @@ function App() {
   return (
     <main>
       <Routes>
-        <Route path="/northsea/" element={<Home />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/collection/:collectionId" element={<CollectionNfts />} />
         <Route
-          path="/northsea/collection/:collectionId"
-          element={<CollectionNfts />}
-        />
-        <Route
-          path="/northsea/collection/:collectionId/detail/:id"
+          path="/collection/:collectionId/detail/:id"
           element={<DetailCollection />}
         />
-        <Route path="/northsea/register" element={<Register />}></Route>
-        <Route path="/northsea/login" element={<Login />}></Route>
+        <Route path="/register" element={<Register />}></Route>
+        <Route path="/login" element={<Login />}></Route>
       </Routes>
     </main>
   );

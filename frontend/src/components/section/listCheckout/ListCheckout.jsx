@@ -89,7 +89,7 @@ const ListCheckout = () => {
             {!auth ? (
               <div className="flex justify-end items-center gap-3 ">
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <Link to="/northsea/login">
+                <Link to="/login">
                   <button className=" bg-slate-900 text-[#ffffff] font-medium text-sm py-2 px-4 rounded-md">
                     Continue
                   </button>

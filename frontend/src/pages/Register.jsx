@@ -47,7 +47,7 @@ const Register = () => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         // Redirect to login page after 2 seconds
 
-        navigate("/northsea/login");
+        navigate("/login");
       } catch (error) {
         setMessage(error.response.data.message);
         toast({
@@ -190,7 +190,7 @@ const Register = () => {
           >
             Do you have account?{" "}
             <Link
-              to={"/northsea/login"}
+              to={"/login"}
               className={
                 isDarkMode
                   ? "font-semibold leading-6 text-indigo-500 hover:text-indigo-600"

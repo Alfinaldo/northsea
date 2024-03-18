@@ -91,7 +91,7 @@ const ContentNfts = ({ filteredData }) => {
               )}
 
               <Link
-                to={`/northsea/collection/${data.collection}/detail/${data.identifier}`}
+                to={`/collection/${data.collection}/detail/${data.identifier}`}
                 className=" underline underline-offset-4 text-blue-500 block"
               >
                 <p className=" text-[11px] sm:text-sm  text-blue-500 font-normal">

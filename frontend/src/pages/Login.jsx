@@ -47,7 +47,7 @@ const Login = () => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         // Redirect to login page after 3 detik
 
-        window.location.href = "/northsea/";
+        window.location.href = "/";
       } catch (error) {
         setMessage(error.response.data.message);
 
@@ -160,7 +160,7 @@ const Login = () => {
           >
             Do you have account?{" "}
             <Link
-              to={"/northsea/register"}
+              to={"/register"}
               className={
                 isDarkMode
                   ? "font-semibold leading-6 text-indigo-500 hover:text-indigo-600"
