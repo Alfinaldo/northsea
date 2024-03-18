@@ -43,7 +43,7 @@ router.post("/register", (req, res) => {
 
         //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
         const select_user_username = 'SELECT * FROM users WHERE username = ? ';
-        db.query(select_user_username, [username], (err, result) => {
+        db.query(select_user_username, `${username}`, (err, result) => {
                 if(err) return res.status(500).send({message: "kesahalan internal"})
                 if (result.length > 0) {    
                     // Jika username sudah ada, kirim respon error
