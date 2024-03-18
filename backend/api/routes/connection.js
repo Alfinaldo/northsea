@@ -35,35 +35,36 @@ router.post("/register", (req, res) => {
 
         // pastikan password dan confirm_password itu sesuai/sama
         if (password !== confirm_password) {
-            return res.status(400).send({ message: "Konfirmasi password tidak cocok!" });
+             res.status(400).send({ message: "Konfirmasi password tidak cocok!" });
+             return
         }
 
+
+
+        //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
         const select_user_username = 'SELECT * FROM users WHERE username = ?'
         db.query(select_user_username, [username], (err, result) => {
-        if (err) {
-            console.error("Terjadi kesalahan saat mengecek username di database:", err);
-            return res.status(500).send({ message: "Terjadi kesalahan saat memeriksa database" });
-        }
-
-        if (result.length > 0) {
-            // Jika username sudah ada, kirim respon error
-            return res.status(400).send({ message: "Username pengguna sudah terdaftar" });
-        }
-
-        // Jika username belum ada di dalam database, tambahkan username baru ke dalam database
-        db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, password, confirm_password], (err, result) => {
-            if (err) {
-                console.error("Terjadi kesalahan saat menambahkan user ke database:", err);
-                return res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" });
+                if(err) throw err
+                if (result.length > 0) {    
+                    // Jika username sudah ada, kirim respon error
+                   return res.status(400).send({message: "Username pengguna sudah terdaftar"})
+                } else {
+                //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
+                db.query('INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)', [username, password, confirm_password], (err, result) => {
+                    if (err) {
+                       return res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" }); 
+                    }
+                    //   // Set header CORS
+                    // res.header('Access-Control-Allow-Origin', 'https://northsea.vercel.app');
+                    // res.header('Access-Control-Allow-Credentials', true);
+                    // Kirim respons berhasil
+                    res.status(200).send({ message: "Register Berhasil" });
+                });
             }
-            // Set header CORS
-            res.header('Access-Control-Allow-Origin', 'https://northsea.vercel.app');
-            res.header('Access-Control-Allow-Credentials', true);
-            // Kirim respons berhasil
-            res.status(200).send({ message: "Register Berhasil" });
-        });
-    });
-})
+
+        })
+
+    })
 
 
 
