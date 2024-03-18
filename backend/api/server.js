@@ -17,7 +17,6 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 app.use(cors({
     origin: 'https://northsea.vercel.app',
-    methods: ["GET", "POST"],
     credentials: true,
   }));
 
