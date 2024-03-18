@@ -46,20 +46,15 @@ router.post("/register", (req, res) => {
         db.query(sql, [username], (err, result) => {
             console.log(err)
             console.log(result)
-                if(err) {
-                    return res.status(500).send({message: "kesahalan internal"})
-                }
+                if (err) throw err;
                 if (result.length > 0) {    
                     // Jika username sudah ada, kirim respon error
                    return res.status(400).send({message: "Username pengguna sudah terdaftar"})
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                const sqll = 'INSERT INTO users (username, password, confirm_password) VALUES (?, ?, ?)';
+                const sqll = 'INSERT INTO users SET ?';
                 db.query(sqll, [username, password, confirm_password], (err, result) => {
-                    if (err) {
-                       return res.status(500).send({ message: "Terjadi kesalahan saat mendaftar" }); 
-                    }
-        
+                    if (err) throw err;
                     res.status(200).send({ message: "Register Berhasil" });
                 });
             }
