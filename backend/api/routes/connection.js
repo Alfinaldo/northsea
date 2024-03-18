@@ -48,6 +48,8 @@ router.post("/register", (req, res) => {
                 if (result.length > 0) {    
                     // Jika username sudah ada, kirim respon error
                     res.status(500).send({message: "Username pengguna sudah terdaftar"})
+                    res.header('Access-Control-Allow-Origin', 'https://northsea.vercel.app');
+                    res.header('Access-Control-Allow-Credentials', true);
                     return
                 } else {
                 //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
@@ -57,6 +59,8 @@ router.post("/register", (req, res) => {
                         return
                     }
                     res.status(200).send({ message: "Register Berhasil" });
+                    res.header('Access-Control-Allow-Origin', 'https://northsea.vercel.app');
+                    res.header('Access-Control-Allow-Credentials', true);
                 });
             }
 
