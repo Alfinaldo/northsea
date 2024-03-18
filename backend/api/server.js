@@ -17,15 +17,14 @@ app.use(bodyParser.urlencoded({ extended: true}))
 
 
 
+app.use("/api", connection)
+app.use("/api", converting)
+
 
 app.use(cors({
     origin: 'https://northsea.vercel.app',
     credentials: true,
   }));
-
-
-app.use("/api", connection)
-app.use("/api", converting)
 
 
 
