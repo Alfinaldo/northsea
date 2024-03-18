@@ -26,7 +26,7 @@ db.connect((err) => {
 //* endpoint register
 router.post("/register", (req, res) => {
     const { username, password, confirm_password } = req.body;
-    
+    console.log(username)
 
         // pastikan semua kolom terisi semua
         if (!username || !password || !confirm_password) {
