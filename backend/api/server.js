@@ -15,16 +15,19 @@ app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true}))
 
+app.use(cors({
+    origin: 'https://northsea.vercel.app',
+    methods: ["GET", "POST"],
+    credentials: true,
+  }));
+
+
 
 
 app.use("/api", connection)
 app.use("/api", converting)
 
 
-app.use(cors({
-    origin: 'https://northsea.vercel.app',
-    credentials: true,
-  }));
 
 
 
