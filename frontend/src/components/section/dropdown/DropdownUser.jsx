@@ -40,7 +40,7 @@ const DropdownUser = ({ auth, user }) => {
       window.location.reload();
       setMessage(response.data.message);
     } catch (error) {
-      console.error("Logout failed");
+      console.error("Logout failed", error);
     }
   };
 
