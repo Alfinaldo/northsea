@@ -182,14 +182,20 @@ router.post("/register", async (req, res) => {
 
 
      // Tambahkan endpoint logout
-    router.get('/logout', (req, res) => {
-    // Hapus cookie accessToken
-    res.clearCookie('accessToken');
-    // Hapus cookie refreshToken
-    res.clearCookie('refreshToken');
-    // Kirim respons berhasil logout
-    res.status(200).send({ message: 'Logout successful' });
-});
+     router.get('/logout', (req, res) => {
+        try {
+            // Hapus cookie accessToken
+            res.clearCookie('accessToken');
+            // Hapus cookie refreshToken
+            res.clearCookie('refreshToken');
+            // Kirim respons berhasil logout
+            res.status(200).send({ message: 'Logout successful' });
+        } catch (error) {
+            console.error('Logout failed:', error);
+            res.status(500).send({ message: 'Logout failed' });
+        }
+    });
+    
        
 
 export default router
