@@ -1,26 +1,40 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
-import { MongoClient } from 'mongodb'
-import 'dotenv/config';
+// import { MongoClient } from 'mongodb'
+import  mongoose  from 'mongoose'
+import { config } from 'dotenv';
+config();
+
 
 const router = express()
 
 
-const uri = process.env.URI_MONGODB
+const uri = 'mongodb+srv://northsea:12345@cluster0.345yfvb.mongodb.net/server';
 
-// cek koneksi database
-const connectToDatabase = async () => {
-    const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true})
-    try {
-        await client.connect()
-        console.log('connected to mongodb')
-        return client.db()
-    } catch (error) {
-        console.error('connect to mongodb failed', error)
-        throw error
-    }
-}
+// Buat koneksi ke MongoDB menggunakan Mongoose
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+
+const db = mongoose.connection
+
+
+// Tangani event kesalahan koneksi
+db.on('error', console.error.bind(console, 'Koneksi MongoDB gagal:'));
+
+// Tangani event koneksi berhasil
+db.once('open', () => {
+    console.log('Terhubung ke MongoDB');
+});
+
+// Mendefinisikan skema pengguna
+const userSchema = new mongoose.Schema({
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true },
+    confirm_password: {type: String, required: true}
+});
+
+// Membuat model pengguna dari skema
+const User = mongoose.model('User', userSchema);
 
 
 //* endpoint register
@@ -38,19 +52,19 @@ router.post("/register", async (req, res) => {
             return res.status(400).send({ message: "Konfirmasi password tidak cocok!" });
         }
 
-         // Inisialisasi koneksi ke database
-         const db = await connectToDatabase();
+        
+        // Validasi jika ada username yang sama di dalam database
+        const existingUser = await User.findOne({ username });
+        if (existingUser) {
+            return res.status(400).send({ message: "Username pengguna sudah terdaftar" });
+        }
 
-         // Validasi jika ada username yang sama di dalam database
-         const existingUser = await db.collection('users').findOne({ username });
-         if (existingUser) {
-             return res.status(400).send({ message: "Username pengguna sudah terdaftar" });
-         }
+          // Tambahkan pengguna baru ke dalam database
+          const newUser = new User({ username, password, confirm_password });
+          await newUser.save();
+  
+          res.status(200).send({ message: "Register Berhasil" });
 
-           // Tambahkan pengguna baru ke dalam database
-           await db.collection('users').insertOne({ username, password, confirm_password });
-
-        res.status(200).send({ message: "Register Berhasil" });
     } catch (error) {
         console.error('Registrasi gagal:', error);
         res.status(500).send({ message: "Registrasi gagal" });
