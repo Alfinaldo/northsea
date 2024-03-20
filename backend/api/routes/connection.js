@@ -83,17 +83,19 @@ router.post("/register", async (req, res) => {
             if (!username || !password) {
                 return res.status(400).send({ message: "Mohon lengkapi semua kolom" });
             }
+
+        
     
-            // Temukan pengguna berdasarkan username
-            const user = await prisma.user.findUnique({
-                where: {
-                    username: username,
-                    password: password
-                },
-            });
-    
+             // Temukan pengguna berdasarkan username
+            const user = await User.findOne({ username });
+
             // Periksa apakah pengguna ditemukan
             if (!user) {
+                return res.status(401).send({ message: "Username atau kata sandi tidak valid" });
+            }
+
+              // Periksa apakah password cocok
+            if (user.password !== password) {
                 return res.status(401).send({ message: "Username atau kata sandi tidak valid" });
             }
     
@@ -189,12 +191,5 @@ router.post("/register", async (req, res) => {
     res.status(200).send({ message: 'Logout successful' });
 });
        
-  
-    
-
-
-
-    
-
 
 export default router
