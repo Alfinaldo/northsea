@@ -185,9 +185,9 @@ router.post("/register", async (req, res) => {
      router.get('/logout', (req, res) => {
         try {
             // Hapus cookie accessToken
-            res.clearCookie('accessToken');
+            res.clearCookie('accessToken', {path: '/'});
             // Hapus cookie refreshToken
-            res.clearCookie('refreshToken');
+            res.clearCookie('refreshToken', {path: '/'});
             // Kirim respons berhasil logout
             res.status(200).send({ message: 'Logout successful' });
         } catch (error) {
