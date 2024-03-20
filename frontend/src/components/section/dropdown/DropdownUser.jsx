@@ -27,6 +27,8 @@ const DropdownUser = ({ auth, user }) => {
   const split = user.split("");
   const userr = split.shift();
 
+  console.log(message);
+
   const handleLogout = async () => {
     try {
       const response = await axios.get(
