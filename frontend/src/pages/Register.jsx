@@ -15,10 +15,10 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
 
+  console.log(message);
+
   const { isDarkMode } = useContext(darkMode);
   const { authUser, setAuthUser } = useContext(darkMode);
-
-  console.log(message);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -35,6 +35,8 @@ const Register = () => {
           "https://northsea-server.vercel.app/api/register",
           data
         );
+
+        console.log(response.data);
 
         setMessage(response.data.message);
         toast({
