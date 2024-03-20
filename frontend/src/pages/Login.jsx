@@ -36,7 +36,6 @@ const Login = () => {
             withCredentials: true,
           }
         );
-        console.log(response.data);
         setMessage(response.data.message);
         localStorage.setItem("user", response.data.username);
 
