@@ -48,7 +48,7 @@ const Login = () => {
         await new Promise((resolve) => setTimeout(resolve, 3000));
         // Redirect to login page after 3 detik
 
-        // window.location.href = "/";
+        window.location.href = "/";
       } catch (error) {
         setMessage(error.response.data.message);
 
