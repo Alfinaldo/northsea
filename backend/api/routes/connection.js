@@ -1,166 +1,162 @@
 import express from 'express'
-import mysql from 'mysql'
 import jwt from 'jsonwebtoken'
+import { MongoClient } from 'mongodb'
+import 'dotenv/config';
 
 const router = express()
 
-const db = mysql.createConnection({
-    host: '127.0.0.1',
-    user: 'root',
-    password: '',
-    database: 'server'
-})
 
+const uri = process.env.URI_MONGODB
 
-//* nyecek apakah express dan database mysql berhasil di connect kan atau tidak
-db.connect((err) => {
-    if(err) {
-        console.log(err)
-    } else {
-        console.log('mysql Connected...')
+// cek koneksi database
+const connectToDatabase = async () => {
+    const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true})
+    try {
+        await client.connect()
+        console.log('connected to mongodb')
+        return client.db()
+    } catch (error) {
+        console.error('connect to mongodb failed', error)
+        throw error
     }
-})
+}
 
 
 
 //* endpoint register
-router.post("/register", (req, res) => {
+router.post("/register", async (req, res) => {
     const { username, password, confirm_password } = req.body;
-    console.log('username', username)
-   
 
-        // pastikan semua kolom terisi semua
+    try {
+        // Pastikan semua kolom terisi semua
         if (!username || !password || !confirm_password) {
             return res.status(400).send({ message: "Mohon lengkapi semua kolom" });
         }
 
-        // pastikan password dan confirm_password itu sesuai/sama
+        // Pastikan password dan confirm_password itu sesuai/sama
         if (password !== confirm_password) {
             return res.status(400).send({ message: "Konfirmasi password tidak cocok!" });
         }
 
+         // Inisialisasi koneksi ke database
+         const db = await connectToDatabase();
 
+         // Validasi jika ada username yang sama di dalam database
+         const existingUser = await db.collection('users').findOne({ username });
+         if (existingUser) {
+             return res.status(400).send({ message: "Username pengguna sudah terdaftar" });
+         }
 
-        //* validasi jika ada username yang sama di dalam database, maka pesan nya harus error
-        const sql = 'SELECT * FROM users WHERE username = ? ';
-        db.query(sql, [username], (err, result) => {
-            if (err) throw err;
-                if (result.length > 0) {    
-                    // Jika username sudah ada, kirim respon error
-                   return res.status(400).send({message: "Username pengguna sudah terdaftar"})
-                } else {
-                //* jika username belum ada di dalam database maka tambahkan username baru ke dalam database
-                const sqll = 'INSERT INTO users (username, password) VALUES (?, ?)';
-                db.query(sqll, [username, password], (err, result) => {
-                    if (err) throw err;
-                    res.status(200).send({ message: "Register Berhasil" });
-                });
-            }
+           // Tambahkan pengguna baru ke dalam database
+           await db.collection('users').insertOne({ username, password, confirm_password });
 
-        })
-
-    })
+        res.status(200).send({ message: "Register Berhasil" });
+    } catch (error) {
+        console.error('Registrasi gagal:', error);
+        res.status(500).send({ message: "Registrasi gagal" });
+    }
+});
 
 
 
 
     //* endpoint Login
-    router.post("/login", (req, res) => {
-        const { username, password, } = req.body;
-      
-          //* pastikan semua kolom terisi semua
-          if (!username || !password  ) {
-            return res.status(400).send({ message: "Mohon lengkapi semua kolom" });
+    router.post("/login", async (req, res) => {
+        const { username, password } = req.body;
+    
+        try {
+            // Pastikan semua kolom terisi semua
+            if (!username || !password) {
+                return res.status(400).send({ message: "Mohon lengkapi semua kolom" });
+            }
+    
+            // Temukan pengguna berdasarkan username
+            const user = await prisma.user.findUnique({
+                where: {
+                    username: username,
+                    password: password
+                },
+            });
+    
+            // Periksa apakah pengguna ditemukan
+            if (!user) {
+                return res.status(401).send({ message: "Username atau kata sandi tidak valid" });
+            }
+    
+            // Jika verifikasi berhasil, buat token JWT
+            const accessToken = jwt.sign({ username: user.username }, 'jwt-access-token', {
+                expiresIn: '60s', // expires in 60 seconds (1 minute)
+            });
+    
+            // menyimpan access token ke dalam cookie
+            const maxAgeForOneMinute = 60000; // 60.000 milidetik
+            res.cookie('accessToken', accessToken, { maxAge: maxAgeForOneMinute, httpOnly: true, secure: true, sameSite: 'strict' });
+    
+            // membuat token refresh
+            const refreshToken = jwt.sign({ username: user.username }, 'jwt-refresh-token', {
+                expiresIn: '120s', // 2 menit
+            });
+    
+            // me-resfreh refreshToken di dalam cookie 
+            const maxAgeForTwoMinute = 120000; // 120.000 milidetik
+            res.cookie('refreshToken', refreshToken, { maxAge: maxAgeForTwoMinute, httpOnly: true, secure: true, sameSite: 'strict' });
+    
+            // Kirim respons berhasil bersama dengan token
+            res.status(200).send({ message: "Login berhasil", username: username, auth: true, token: accessToken });
+        } catch (error) {
+            console.error('Login failed:', error);
+            res.status(500).send({ message: "Login gagal" });
         }
-
-        const sql = 'SELECT * FROM users WHERE username = ? ';
-        db.query(sql, [username], (err, result) => {
-            if(err) {
-                res.status(500).send({message: 'Kesalahan Internal Server'});
-            }
-
-              //* Periksa apakah hasil query tidak kosong
-            if(result.length === 0) {
-                return res.status(401).send({ message: 'Username atau kata sandi tidak valid' });
-            }
-
-            //* Memverifikasi kata sandi
-            const user = result[0];
-            if (password !== user.password) {
-                return res.status(401).send({ message: 'Username atau kata sandi tidak valid' });
-            }
-
-                //* Jika verifikasi berhasil, buat token JWT
-                const accessToken = jwt.sign({ username : user.username}, 'jwt-access-token', {
-                    expiresIn: '60s' // expires in 60 seconds (1 minute)
-                }) 
-
-                //* menyimpan access token ke dalam cookie
-                const maxAgeForOneMinute = 60000 // 60.000 milidetik
-                 res.cookie('accessToken', accessToken, {maxAge: maxAgeForOneMinute, httpOnly: true, secure: true, sameSite: 'strict'})
-
-                //* membuat token refresh
-                const refreshToken = jwt.sign({username: user.username}, 'jwt-refresh-token', {
-                    expiresIn: '120s' // 2 menit
-                })
-
-                //* me-resfreh refreshToken di dalam cookie 
-                const maxAgeForTwoMinute = 120000 // 120.000 milidetik
-                res.cookie('refreshToken', refreshToken, {maxAge: maxAgeForTwoMinute, httpOnly: true, secure:true, sameSite: 'strict'})
-
-                // Kirim respons berhasil bersama dengan token
-                res.status(200).send({ message: "Login berhasil", username: username, auth: true, token: accessToken });
-            })
-    })
+    });
 
 
 
 
-
-//* Middleware
+    //* Middleware
     const middleware = (req, res, next) => {
-        const accessToken = req.cookies.accessToken
-      
-        if(!accessToken) {
+        const accessToken = req.cookies.accessToken;
+
+        if (!accessToken) {
             renewToken(req, res, next);
         } else {
             jwt.verify(accessToken, 'jwt-access-token', (err, decoded) => {
-                if(err) {
-                    return res.status(401).send({message: 'invalid token', auth: false})
+                if (err) {
+                    return res.status(401).send({ message: 'invalid token', auth: false });
                 } else {
-                    req.username = decoded.username
-                    next()
+                    req.username = decoded.username;
+                    next();
                 }
-            })
+            });
         }
-    }
+    };
 
 
 
+    // RenewToken
     const renewToken = (req, res) => {
-        const refreshToken = req.cookies.refreshToken
-        if(!refreshToken) {
-            return res.status(401).send({message: "no refresh token", auth: false}) 
+        const refreshToken = req.cookies.refreshToken;
+        if (!refreshToken) {
+            return res.status(401).send({ message: "no refresh token", auth: false });
         } else {
             jwt.verify(refreshToken, 'jwt-refresh-token', (err, decoded) => {
-                if(err) {
-                    return res.status(401).send({message: "invalid refresh token", auth: false})
+                if (err) {
+                    return res.status(401).send({ message: "invalid refresh token", auth: false });
                 } else {
                     const accessToken = jwt.sign({ username: decoded.username }, 'jwt-access-token', {
                         expiresIn: '1m' // 60 detik (1 menit)
                     });
 
-                    const maxAgeForOneMinute = 60000 // 60.000 milidetik
-                    res.cookie('accessToken', accessToken, {maxAge: maxAgeForOneMinute}) 
-        
-                     // Hapus refreshToken dari cookie
-                     res.clearCookie('refreshToken');
-        
+                    const maxAgeForOneMinute = 60000; // 60.000 milidetik
+                    res.cookie('accessToken', accessToken, { maxAge: maxAgeForOneMinute });
+
+                    // Hapus refreshToken dari cookie
+                    res.clearCookie('refreshToken');
+
                     return res.status(200).send({ message: "Token renewed", auth: true });
                 }
-            })
+            });
         }
-    }
+    };
 
 
     router.get('/checked-auth', middleware, (req, res) => {
