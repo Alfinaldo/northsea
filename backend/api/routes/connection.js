@@ -106,7 +106,7 @@ router.post("/register", async (req, res) => {
     
             // menyimpan access token ke dalam cookie
             const maxAgeForOneMinute = 60000; // 60.000 milidetik
-            res.cookie('accessToken', accessToken, { maxAge: maxAgeForOneMinute, httpOnly: true, secure: true});
+            res.cookie('accessToken', accessToken, { maxAge: maxAgeForOneMinute, httpOnly: true, secure: true, sameSite: 'lax'});
     
             // membuat token refresh
             const refreshToken = jwt.sign({ username: user.username }, 'jwt-refresh-token', {
@@ -115,7 +115,7 @@ router.post("/register", async (req, res) => {
     
             // me-resfreh refreshToken di dalam cookie 
             const maxAgeForTwoMinute = 120000; // 120.000 milidetik
-            res.cookie('refreshToken', refreshToken, { maxAge: maxAgeForTwoMinute, httpOnly: true, secure: true});
+            res.cookie('refreshToken', refreshToken, { maxAge: maxAgeForTwoMinute, httpOnly: true, secure: true, sameSite: 'lax'});
     
             // Kirim respons berhasil bersama dengan token
             res.status(200).send({ message: "Login berhasil", username: username, auth: true, token: accessToken });
