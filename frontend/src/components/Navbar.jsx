@@ -36,7 +36,7 @@ const Navbar = () => {
   const fetchCheckAuth = async () => {
     try {
       const response = await axios.get(
-        "https://northsea-server.vercel.app/api/checked-auth",
+        "http://localhost:3007/api/checked-auth",
         {
           withCredentials: true,
         }
