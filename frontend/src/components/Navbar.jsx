@@ -28,13 +28,6 @@ const Navbar = () => {
     };
   }, []);
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(storedUser);
-    }
-  }, []);
-
   const fetchCheckAuth = async () => {
     try {
       const response = await axios.get(
@@ -55,6 +48,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+      setUser(storedUser);
+    }
     fetchCheckAuth();
   }, []);
 

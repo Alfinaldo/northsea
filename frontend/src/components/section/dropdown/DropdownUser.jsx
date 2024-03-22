@@ -38,8 +38,9 @@ const DropdownUser = ({ token, auth, user }) => {
         }
       );
       localStorage.removeItem("user");
-      document.cookie = "accessToken=; expires=0;";
-      document.cookie = "refreshToken=; expires=0;";
+      localStorage.removeItem("accessToken");
+      document.cookie = "accessToken=; expires=0; path=/;";
+      document.cookie = "refreshToken=; expires=0; path=/;";
 
       window.location.reload();
       setMessage(response.data.message);
