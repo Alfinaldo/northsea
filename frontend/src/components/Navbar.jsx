@@ -47,7 +47,7 @@ const Navbar = () => {
       console.log(response.data);
       if (response.data.auth) {
         setMessage(response.data.message);
-        // setAuth(response.data.auth);
+        setAuth(response.data.auth);
       }
     } catch (error) {
       setMessage(error.response.data.message);
