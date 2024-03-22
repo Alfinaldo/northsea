@@ -166,7 +166,7 @@ const renewToken = (req, res) => {
                 res.cookie('accessToken', accessToken, { maxAge: maxAgeForOneMinute });
 
                 // Hapus refreshToken dari cookie
-                res.clearCookie('refreshToken');
+                // res.clearCookie('refreshToken');
 
                 return res.status(200).send({ message: "Token renewed", auth: true });
             }
@@ -185,9 +185,9 @@ router.get('/checked-auth', middleware, (req, res) => {
 router.get('/logout', (req, res) => {
     try {
         // Hapus cookie accessToken
-        res.clearCookie('accessToken', {maxAge: 0});
+        res.clearCookie('jwt-access-token', {maxAge: 0});
         // Hapus cookie refreshToken
-        res.clearCookie('refreshToken', {maxAge: 0});
+        res.clearCookie('jwt-refresh-token', {maxAge: 0});
         // Kirim respons berhasil logout
         res.status(200).send({ message: 'Logout successful' });
     } catch (error) {
