@@ -50,7 +50,7 @@ const DropdownUser = ({ token, auth, user }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        {token && (
+        {auth && (
           <div className=" bg-gray-300 font-bold py-1 px-2 text-sm rounded-full text-[#363636]">
             {userr?.toUpperCase()}
           </div>
