@@ -39,7 +39,9 @@ const DropdownUser = ({ token, auth, user }) => {
       );
       console.log(response.data);
       localStorage.removeItem("user");
-      localStorage.removeItem("token");
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+
       window.location.reload();
       setMessage(response.data.message);
     } catch (error) {
