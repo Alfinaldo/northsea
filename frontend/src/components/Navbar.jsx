@@ -16,8 +16,6 @@ const Navbar = () => {
 
   const [isToggle, setIsToggle] = useState(window.innerWidth > 500);
 
-  console.log(message);
-
   useEffect(() => {
     const handleResize = () => {
       setIsToggle(window.innerWidth > 500);
@@ -37,7 +35,6 @@ const Navbar = () => {
         }
       );
 
-      console.log(response.data);
       if (response.data.auth) {
         setMessage(response.data.message);
         setAuth(response.data.auth);

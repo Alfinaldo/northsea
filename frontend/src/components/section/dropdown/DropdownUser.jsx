@@ -17,17 +17,15 @@ import {
 import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
 import { Switch } from "@radix-ui/react-switch";
 import { darkMode } from "@/context/ContextProvider";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import axios from "axios";
 
-const DropdownUser = ({ token, auth, user }) => {
+const DropdownUser = ({ auth, user }) => {
   const { isDarkMode } = useContext(darkMode);
   const [message, setMessage] = useState("");
 
   const split = user.split("");
   const userr = split.shift();
-
-  console.log(message);
 
   const handleLogout = async () => {
     try {
@@ -37,10 +35,16 @@ const DropdownUser = ({ token, auth, user }) => {
           withCredentials: true,
         }
       );
-      localStorage.removeItem("user");
-      localStorage.removeItem("accessToken");
-      document.cookie = "accessToken=; expires=0; path=/;";
-      document.cookie = "refreshToken=; expires=0; path=/;";
+
+      // Periksa apakah permintaan berhasil
+      if (response.status === 200) {
+        localStorage.removeItem("user");
+        // Hapus cookie dari penyimpanan cookie
+        document.cookie =
+          "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie =
+          "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+      }
 
       window.location.reload();
       setMessage(response.data.message);
