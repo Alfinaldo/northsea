@@ -20,7 +20,7 @@ import { darkMode } from "@/context/ContextProvider";
 import { useContext, useState } from "react";
 import axios from "axios";
 
-const DropdownUser = ({ auth, user }) => {
+const DropdownUser = ({ token, auth, user }) => {
   const { isDarkMode } = useContext(darkMode);
   const [message, setMessage] = useState("");
 
@@ -39,6 +39,7 @@ const DropdownUser = ({ auth, user }) => {
       );
       console.log(response.data);
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       window.location.reload();
       setMessage(response.data.message);
     } catch (error) {
@@ -49,7 +50,7 @@ const DropdownUser = ({ auth, user }) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        {auth && (
+        {token && (
           <div className=" bg-gray-300 font-bold py-1 px-2 text-sm rounded-full text-[#363636]">
             {userr?.toUpperCase()}
           </div>

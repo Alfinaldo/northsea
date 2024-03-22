@@ -40,6 +40,7 @@ const Login = () => {
         console.log(response.data);
         setMessage(response.data.message);
         localStorage.setItem("user", response.data.username);
+        localStorage.setItem("accessToken", response.data.token);
 
         toast({
           description: `${response.data.message}`, // response.data.message sudah merupakan string, tidak perlu menggabungkan dengan setMessage dan data

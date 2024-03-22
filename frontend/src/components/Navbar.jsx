@@ -12,6 +12,7 @@ const Navbar = () => {
   const { isDarkMode, setIsDarkMode } = useContext(darkMode);
   const { auth, setAuth } = useContext(darkMode);
   const [user, setUser] = useState("");
+  const [token, setToken] = useState(null);
   const [message, setMessage] = useState("");
 
   const [isToggle, setIsToggle] = useState(window.innerWidth > 500);
@@ -49,6 +50,10 @@ const Navbar = () => {
         setMessage(response.data.message);
         setAuth(response.data.auth);
       }
+
+      if (response.data.token) {
+        setToken(response.data.token);
+      }
     } catch (error) {
       setMessage(error.response.data.message);
     }
@@ -85,7 +90,7 @@ const Navbar = () => {
             {auth ? (
               <>
                 <Switch />
-                <DropdownUser auth={auth} user={user} />
+                <DropdownUser token={token} auth={auth} user={user} />
               </>
             ) : (
               <>
