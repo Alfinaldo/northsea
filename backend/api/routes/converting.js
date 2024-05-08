@@ -1,19 +1,6 @@
 import express from 'express'
 
-import response from './response.js'
-
 const router = express()
-
-// app.use((req, res, next) => {
-//     res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3007')
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST')
-//     res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
-//     res.setHeader('Access-Control-Allow-Credentials', 'true');
-//     next()
-// })
-
-
-
 
 const cryptoValues = {
     XRP : 0.6474,
@@ -24,8 +11,6 @@ const cryptoValues = {
     FTM : 0.6395,
     MANA:  0.6651,
 }
-
-
 
 
 router.get('/convert/:crypto_symbol/:crypto_amount', (req, res) => {

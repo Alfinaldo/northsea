@@ -12,7 +12,7 @@ const router = express()
 const uri = 'mongodb+srv://northsea:12345@cluster0.345yfvb.mongodb.net/server';
 
 // Buat koneksi ke MongoDB menggunakan Mongoose
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(uri);
 
 
 const db = mongoose.connection
