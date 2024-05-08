@@ -77,7 +77,7 @@ const MenuCartMapping = ({
           withCredentials: true,
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       setCrypto(response.data.crypto_symbol);
       setUsd(response.data.usd);
     } catch (error) {

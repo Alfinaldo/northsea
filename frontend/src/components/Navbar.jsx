@@ -7,6 +7,7 @@ import { darkMode } from "../context/ContextProvider";
 import { Switch } from "@/components/ui/switch";
 import DropdownUser from "./section/dropdown/DropdownUser";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const { isDarkMode, setIsDarkMode } = useContext(darkMode);
@@ -69,7 +70,7 @@ const Navbar = () => {
                 : " font-bold text-3xl sm:text-4l md:text-4xl lg:text-4xl text-[#363636]"
             }
           >
-            Northsea
+            <Link to={"/"}> Northsea</Link>
           </div>
         </div>
 
